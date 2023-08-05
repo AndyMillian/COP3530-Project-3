@@ -17,15 +17,15 @@ string removeQuotes(const string& str) {
     }
     return result;
 }
-string getColumnValue(const string& line, int column) {
+string getColVal(const string& line, int col) {
     istringstream iss(line);
-    string value;
-    int currentColumn = 1; 
-    while (getline(iss, value, ',')) {
-        if (currentColumn == column) {
-            return value;
+    string val;
+    int currentCol = 1; 
+    while (getline(iss, val, ',')) {
+        if (currentCol == col) {
+            return val;
         }
-        currentColumn++;
+        currentCol++;
     }
     return "";
 }
@@ -41,8 +41,8 @@ int main() {
     string line;
     auto start1 = chrono::high_resolution_clock::now();
     while (getline(file, line)) {
-        string key = getColumnValue(line, 1);
-        string value = getColumnValue(line, 2);
+        string key = getColVal(line, 1);
+        string value = getColVal(line, 2);
         if (!key.empty() && !value.empty()) {
             mapSC.insert(removeQuotes(key), removeQuotes(value));
         }
@@ -60,8 +60,8 @@ int main() {
     string line2;
     auto start2 = chrono::high_resolution_clock::now();
     while (getline(file2, line)) {
-        string key = getColumnValue(line, 1);
-        string value = getColumnValue(line, 2);
+        string key = getColVal(line, 1);
+        string value = getColVal(line, 2);
         if (!key.empty() && !value.empty()) {
             mapLP.insert(removeQuotes(key), removeQuotes(value));
         }
@@ -77,7 +77,6 @@ int main() {
         cout << "1. Search for book\n2. Remove book\n3. Remove All\n4. Check size\n5. Quit" << endl;
         cin >> input;
         cin.ignore();
-
         if (input == 1 || input == 2|| input == 3 || input == 4) {
             string title;
             if (input == 1 || input == 2){
@@ -88,6 +87,7 @@ int main() {
                 if (mapSC.search(title, author) && mapLP.search(title, author)) {
                     cout << title << " by " << author << " is in the hashmap." << endl;
                 } else {
+                    mapLP.search(title, author);
                     cout << title << " not found in the map." << endl;
                 }
             } else if (input == 2) {

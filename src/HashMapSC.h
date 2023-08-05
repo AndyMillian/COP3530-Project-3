@@ -37,6 +37,12 @@ public:
     bool search(const KeyType& key, ValueType& value) const {
         auto start = chrono::high_resolution_clock::now();
         size_t i = hashFunction(key);
+        if (size == 0) {
+            auto end = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
+            cout << "Hashmap is Empty\nS.C. Search time: " << duration << " us" << endl;
+            return false;
+        }
         for (const auto& pair : buckets[i]) {
             if (pair.first == key) {
                 value = pair.second;
@@ -77,7 +83,7 @@ public:
         size = 0;
         auto end = chrono::high_resolution_clock::now();
         auto duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
-        cout << "S.C. remove all time: " << duration << " us" << endl;
+        cout << "S.C. Remove All Time: " << duration << " us" << endl;
     }
     bool isEmpty() const {
         return size == 0;

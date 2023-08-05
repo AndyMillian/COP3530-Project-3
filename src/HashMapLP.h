@@ -3,7 +3,6 @@
 #include <chrono>
 #include <cmath>
 using namespace std;
-
 template <typename KeyType, typename ValueType>
 class HashMapLP {
 private:
@@ -39,6 +38,12 @@ public:
         auto start = chrono::high_resolution_clock::now();
         size_t i = hashFunction(key);
         size_t step = 1;
+        if (size == 0) {
+            auto end = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
+            cout << "Hashmap is Empty\nL.P. Search time: " << duration << " us" << endl;
+            return false;
+        }
         while (buckets[i].first != KeyType() && buckets[i].first != key) {
             i = (i + step) % buckets.size();
         }
@@ -80,13 +85,11 @@ public:
         size = 0;
         auto end = chrono::high_resolution_clock::now();
         auto duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
-        cout << "L.P. Remove time: " << duration << " us" << endl;
+        cout << "L.P. Remove All Time: " << duration << " us" << endl;
     }
-
     bool isEmpty() const {
         return size == 0;
     }
-
     size_t getSize() const {
         return size;
     }
